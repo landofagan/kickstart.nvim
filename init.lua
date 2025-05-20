@@ -102,7 +102,7 @@ vim.g.have_nerd_font = false
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.o.relativenumber = true
+vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -217,6 +217,18 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
     vim.hl.on_yank()
   end,
+})
+
+-- Reset cursor on exit:
+local restore_cursor_augroup = vim.api.nvim_create_augroup('restore_cursor_shape_on_exit', { clear = true })
+
+-- command = "set guicursor=a:hor20
+-- command = "set guicursor=a:block"
+-- :h guicursor for more details
+vim.api.nvim_create_autocmd({ 'VimLeave' }, {
+  group = restore_cursor_augroup,
+  desc = 'restore the cursor shape on exit of neovim',
+  command = 'set guicursor=a:ver20',
 })
 
 -- [[ Install `lazy.nvim` plugin manager ]]
@@ -672,9 +684,9 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        -- gopls = {},
-        -- pyright = {},
-        -- rust_analyzer = {},
+        gopls = {},
+        pyright = {},
+        rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
